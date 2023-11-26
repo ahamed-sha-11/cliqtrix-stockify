@@ -1,0 +1,6 @@
+
+info user;
+userFirstName = user.get("first_name");
+response = Map();
+response.put("text","Hi " + userFirstName + " This is currently a free plan so if you are seeing null values either it is a premium stock or you exhausted the total number of request per day :😅");
+return response;

@@ -1,0 +1,7 @@
+
+userFirstName = user.get("first_name");
+response = Map();
+inputs = list();
+inputs.add({"type":"text","name":"Stock","label":"Stock Symbol","hint":"Input a stock symbol","placeholder":"Eg: AAPL, TSLA","mandatory":true,"value":"","max_length":"90","min_length":""});
+form = {"type":"form","title":"Get Stock Details","hint":"Enter a Symbol","name":"ID","version":1,"button_label":"Search","action":{"type":"invoke.function","name":"getstock"},"inputs":inputs};
+return form;

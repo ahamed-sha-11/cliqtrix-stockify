@@ -1,0 +1,104 @@
+
+apikey = "86aa92eaa25545881ddb9b024950cf7d";
+apiurl = "https://fmpcloud.io/api/v3/quote/";
+// apiurl2 = "https://fmpcloud.io/api/v3/historical-chart/30min/";
+response = Map();
+bot = Map();
+bot.put("name","BRO");
+bot.put("image","https://cdn.pixabay.com/photo/2019/12/04/23/34/sheep-4673941_1280.jpg");
+response.put("bot",bot);
+text = "Enter Symbol";
+response.put("text",text);
+if(message.containsIgnoreCase("HI") || message.containsIgnoreCase("HEY"))
+{
+	text = "Hello to get the information about the stock you need Drop the symbol";
+	response.put("suggestions",{"list":{{"text":"Stock"}}});
+}
+else if(message.containsIgnoreCase("Stock"))
+{
+	text = "Enter Symbol";
+}
+else if(text.equals("Enter Symbol"))
+{
+	symbol = message;
+	//.concat("");
+	symbol = symbol.toUpperCase();
+	targetURL = apiurl + symbol + "?apikey=" + apikey;
+	// 	targetURL2 = apiurl2 + symbol + "?apikey=" + apikey;
+	res = invokeurl
+	[
+		url :targetURL
+		type :GET
+	];
+	// 	res2 = invokeurl
+	// 	[
+	// 		url :targetURL2
+	// 		type :GET
+	// 	];
+	try 
+	{
+		response.put("text",res);
+		slidesList = list();
+		slidesList0 = Map();
+		slidesList0.put("type","table");
+		slidesList0.put("title","Stock prices");
+		data = Map();
+		headersList = list();
+		headersList.add("Data");
+		headersList.add("Values");
+		data.put("headers",headersList);
+		rowsList = list();
+		rowsLi = Map();
+		rowsLi.put("Data","Name");
+		rowsLi.put("Values",res.getJSON("name"));
+		rowsList.add(rowsLi);
+		rowsLis = Map();
+		rowsLis.put("Data","Symbol");
+		rowsLis.put("Values",res.getJSON("symbol"));
+		rowsList.add(rowsLis);
+		rowsList0 = Map();
+		rowsList0.put("Data","Price");
+		rowsList0.put("Values",res.getJSON("price"));
+		rowsList.add(rowsList0);
+		rowsList1 = Map();
+		rowsList1.put("Data","Change");
+		rowsList1.put("Values",res.getJSON("change"));
+		rowsList.add(rowsList1);
+		rowsList2 = Map();
+		rowsList2.put("Data","Day Low");
+		rowsList2.put("Values",res.getJSON("dayLow"));
+		rowsList.add(rowsList2);
+		rowsList3 = Map();
+		rowsList3.put("Data","Day High");
+		rowsList3.put("Values",res.getJSON("dayHigh"));
+		rowsList.add(rowsList3);
+		rowsList4 = Map();
+		rowsList4.put("Data","Volume");
+		rowsList4.put("Values",res.getJSON("volume"));
+		rowsList.add(rowsList4);
+		rowsList5 = Map();
+		rowsList5.put("Data","EPS");
+		rowsList5.put("Values",res.getJSON("eps"));
+		rowsList.add(rowsList5);
+		rowsList6 = Map();
+		rowsList6.put("Data","PE");
+		rowsList6.put("Values",res.getJSON("pe"));
+		rowsList.add(rowsList6);
+		rowsList7 = Map();
+		rowsList7.put("Data","Exchange");
+		rowsList7.put("Values",res.getJSON("exchange"));
+		rowsList.add(rowsList7);
+		data.put("rows",rowsList);
+		slidesList0.put("data",data);
+		slidesList.add(slidesList0);
+		response.put("slides",slidesList);
+		response.put("text","Stock details !");
+		return response;
+	}
+	catch (error)
+	{
+		text = " Thats not supported, say a Hi or Drop the symbol or try /nullwhy or /supportedstock";
+	}
+}
+response.put("text",text);
+return response;
